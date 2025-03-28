@@ -9,7 +9,6 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     zip \
-    nginx \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo_mysql
 
@@ -28,11 +27,8 @@ COPY . .
 # Instalar dependencias de Composer
 RUN composer install --no-dev --optimize-autoloader
 
-# Copiar la configuración de Nginx
-COPY nginx.conf /etc/nginx/sites-available/default
+# Exponer el puerto 8000
+EXPOSE 8000
 
-# Exponer el puerto 80
-EXPOSE 80
-
-# Comando para iniciar Nginx y PHP-FPM
-CMD ["sh", "-c", "service nginx start && php-fpm"]
+# Comando para iniciar el servidor embebido de PHP
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
