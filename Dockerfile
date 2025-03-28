@@ -1,3 +1,4 @@
+# Usar la imagen base de PHP-FPM
 FROM php:8.2-fpm
 
 # Instalar dependencias del sistema
@@ -8,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     zip \
+    nginx \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo_mysql
 
@@ -26,5 +28,11 @@ COPY . .
 # Instalar dependencias de Composer
 RUN composer install --no-dev --optimize-autoloader
 
+# Copiar la configuración de Nginx
+COPY nginx.conf /etc/nginx/sites-available/default
+
 # Exponer el puerto 80
 EXPOSE 80
+
+# Comando para iniciar Nginx y PHP-FPM
+CMD service nginx start && php-fpm

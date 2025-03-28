@@ -7,7 +7,7 @@ services:
     container_name: laravel-app
     restart: unless-stopped
     ports:
-      - "8000:80"
+      - "8000:80"  # Mapea el puerto 80 del contenedor al puerto 8000 de tu máquina
     volumes:
       - .:/var/www/html
     networks:
