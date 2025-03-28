@@ -32,7 +32,7 @@ RUN composer install --no-dev --optimize-autoloader
 COPY nginx.conf /etc/nginx/sites-available/default
 
 # Exponer el puerto 80
-EXPOSE 8000
+EXPOSE 80
 
 # Comando para iniciar Nginx y PHP-FPM
-CMD service nginx start && php-fpm
+CMD ["sh", "-c", "service nginx start && php-fpm"]
